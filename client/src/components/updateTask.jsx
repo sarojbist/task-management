@@ -61,7 +61,7 @@ export default function UpdateTaskModel({ task, refresh }) {
     return (
         <>
        
-            <div onClick={openModal} className='p-4 cursor-pointer'>
+            <div onClick={openModal} className='p-2 cursor-pointer'>
                 <FaEdit size={18} />
             </div>
 

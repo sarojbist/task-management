@@ -5,6 +5,7 @@ import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { FaEdit } from "react-icons/fa";
 import UpdateTaskModel from "../components/updateTask";
+import DeleteTaskModel from "../components/deleteTask";
 
 
 export function DashboardPage() {
@@ -30,7 +31,7 @@ export function DashboardPage() {
         }
     };
     useEffect(() => {
-       
+
 
         fetchTasks();
     }, [page]);
@@ -42,10 +43,10 @@ export function DashboardPage() {
                 <SimpleModal />
             </div>
             <h3 className="text-3xl font-semibold text-blue-300 text-center ">Your Tasks</h3>
-            <div className="w-full min-h-[70vh] mx-auto mt-6 bg-white rounded-lg shadow-lg p-10">
-                <div className="flex-grow grid grid-cols-2 gap-6">
+            <div className="w-full min-h-[80vh] mx-auto mt-6 bg-white rounded-lg shadow-lg p-10 flex flex-col justify-between">
+                <div className="grid grid-cols-2 gap-6">
                     {tasks.map((task) => (
-                        <li key={task.id} className="p-4 bg-gray-100 rounded-md shadow flex justify-between items-center">
+                        <div key={task.id} className="p-4 bg-gray-100 rounded-md shadow flex justify-between items-center">
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
                                 <p className="text-sm text-gray-600">{task.description}</p>
@@ -56,10 +57,13 @@ export function DashboardPage() {
                                     {task.status}
                                 </span>
                             </div>
+                            <div className="flex gap-2">
+                                <UpdateTaskModel task={task} refresh={fetchTasks} />
+                                <DeleteTaskModel task={task} refresh={fetchTasks} />
+                            </div>
 
-                            <UpdateTaskModel task={task} refresh={fetchTasks}/>
 
-                        </li>
+                        </div>
                     ))}
                 </div>
 
