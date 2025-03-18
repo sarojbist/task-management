@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "axios";
+import authStore from "../stores/authStore";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -16,26 +18,33 @@ export default function LoginForm() {
   });
 
   const { register, handleSubmit, formState: { errors } } = loginForm;
-
+  const setToken = authStore((state) => state.setToken);
+  const setUserInfo = authStore((state) => state.setUserInfo)
+  const navigate = useNavigate();
 
 
   const onSubmit = async (rawData) => {
     console.log("Login Data:", rawData);
-try {
-const response = await axios.post(`${BASE_URL}/users/login`, rawData);
-console.log(response);
+    try {
+      const response = await axios.post(`${BASE_URL}/users/login`, rawData);
+      console.log(response)
+      if (response.data.token && response.data.userInfo) {
+        setToken(response.data.token);//setting access token in global store
+        setUserInfo(response.data.userInfo); //setting userInfo in global store
+        navigate('/dashboard'); // Adjust this path if necessary
+      }
 
-} catch(err) {
-  console.log(err.message);
-}
+    } catch (err) {
+      console.log(err.message);
+    }
 
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded-lg shadow-lg w-96 h-80"
+        className="bg-white p-6 rounded-lg shadow-lg w-[500px]"
       >
         <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
 
@@ -70,7 +79,19 @@ console.log(response);
         >
           Login
         </button>
+        <div className="flex items-center space-x-2">
+          <h2 className="text-gray-700">Don't have an account?</h2>
+          <button
+            onClick={() => navigate('/register')}
+            className="text-blue-500 cursor-pointer hover:underline focus:outline-none"
+          >
+            Register
+          </button>
+        </div>
+
+
       </form>
+
     </div>
   );
 }

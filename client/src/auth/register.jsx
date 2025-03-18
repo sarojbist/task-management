@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const RegisterSchema = z.object({
   regName: z.string().min(2, "Name must be at least 2 characters"),
@@ -9,22 +13,28 @@ const RegisterSchema = z.object({
 });
 
 export default function RegisterForm() {
-  const registerForm = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(RegisterSchema),
   });
+  const navigate = useNavigate();
+  const onSubmit = async (rawData) => {
+    console.log("Form Data:", rawData);
+    try {
+      const response = await axios.post(`${BASE_URL}/users/register`, rawData);
+      console.log(response)
+      if (response.data.success) {
+       alert("User Registerd");
+       navigate("/login")
+      }
 
-  const { register, handleSubmit, formState: { errors } } = registerForm;
-
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded-lg shadow-lg w-80"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
         <h2 className="text-2xl font-bold text-center mb-4">Register</h2>
 
         <div className="mb-3">
@@ -70,6 +80,15 @@ export default function RegisterForm() {
         >
           Register
         </button>
+        <div className="flex items-center space-x-2">
+          <h2 className="text-gray-700">Don't have an account?</h2>
+          <button
+            onClick={() => navigate('/login')}
+            className="text-blue-500 cursor-pointer hover:underline focus:outline-none"
+          >
+            Login
+          </button>
+        </div>
       </form>
     </div>
   );
