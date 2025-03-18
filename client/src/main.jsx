@@ -4,6 +4,7 @@ import './index.css'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import RegisterForm from './auth/register';
 import LoginForm from './auth/login';
+import { DashboardPage } from './pages/dashboard';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById('root')).render(
           {/* Routes without Layout */}
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
-         
+
+        <Route path="/dashboard" element={<DashboardPage />} />
+
         </Routes>
       </BrowserRouter>
   </StrictMode>,

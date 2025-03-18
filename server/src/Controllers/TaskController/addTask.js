@@ -22,6 +22,7 @@ const addtask = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Task Added Successfully",
+            task
         });
 
 
@@ -29,7 +30,7 @@ const addtask = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: `Adding Taks failed due to: ${err.message}`,
-            task
+       
         });
     }
 }

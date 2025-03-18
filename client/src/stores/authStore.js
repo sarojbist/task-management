@@ -6,8 +6,8 @@ const authStore = create(
     (set) => ({
       token: null,
       userInfo: null,
-      setToken: (token) => set((state) => {state.token = token}),
-      setUserInfo: (userInfo) => set((state) => {state.userInfo = userInfo}),
+      setToken: (token) => set(() => ({ token })),
+      setUserInfo: (userInfo) => set(() => ({ userInfo })),
     }),
     {
       name: 'auth-storage', // store in loca storage

@@ -31,7 +31,8 @@ export default function LoginForm() {
       if (response.data.token && response.data.userInfo) {
         setToken(response.data.token);//setting access token in global store
         setUserInfo(response.data.userInfo); //setting userInfo in global store
-        navigate('/dashboard'); // Adjust this path if necessary
+        console.log("Navigating to /dashboard...");
+        navigate('/dashboard'); 
       }
 
     } catch (err) {

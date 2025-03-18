@@ -3,7 +3,7 @@ const TaskModel = require("../../Models/TaskModel");
 const getTasks = async (req, res) => {
     try {
         // Get query params with defaults
-        let { page = 1, limit = 10 } = req.query;
+        let { page = 1, limit = 5 } = req.query;
 
         // Convert to integers
         page = parseInt(page);
@@ -25,6 +25,14 @@ const getTasks = async (req, res) => {
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(limit);
+
+            if (tasks.length === 0) {
+                return res.status(200).json({
+                    success: true,
+                    tasks: [],
+                    message: "No tasks available",
+                });
+            }
 
         return res.status(200).json({
             success: true,
