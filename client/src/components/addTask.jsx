@@ -8,7 +8,7 @@ import authStore from '../stores/authStore';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export default function SimpleModal() {
+export default function AddModal({refresh}) {
     const [isOpen, setIsOpen] = useState(false);
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
@@ -40,6 +40,7 @@ console.log(token);
             const response = await axios.post(`${BASE_URL}/tasks/add-task`, rawData, config);
             if (response.data.success) {
                 alert("Task Added");
+                refresh()
                 reset();
                 closeModal();
             }
