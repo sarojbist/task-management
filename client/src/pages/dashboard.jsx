@@ -35,7 +35,7 @@ export function DashboardPage() {
 
     useEffect(() => {
         fetchTasks();
-    }, [page, filterStatus,]);
+    }, [page, filterStatus]);
 
     const onDragEnd = (result) => {
         if (!result.destination) return;

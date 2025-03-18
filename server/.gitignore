@@ -36,3 +36,4 @@ Icon?
 Desktop.ini
 
 # Optional: add any other files you want to ignore
+.vercel
