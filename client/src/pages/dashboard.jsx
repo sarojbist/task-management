@@ -3,6 +3,8 @@ import SimpleModal from "../components/addTask"
 import authStore from "../stores/authStore";
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+import { FaEdit } from "react-icons/fa";
+import UpdateTaskModel from "../components/updateTask";
 
 
 export function DashboardPage() {
@@ -11,24 +13,24 @@ export function DashboardPage() {
 
     const [page, setPage] = useState(1);
     const [tasks, setTasks] = useState([]);
+    const fetchTasks = async () => {
+        try {
+            if (!token) return;
 
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            const response = await axios.get(`${BASE_URL}/tasks/get-tasks?page=${page}`, config);
+            setTasks(response.data.tasks);
+        } catch (error) {
+            console.error("Error fetching tasks:", error);
+        }
+    };
     useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                if (!token) return;
-
-                const config = {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                };
-
-                const response = await axios.get(`${BASE_URL}/tasks/get-tasks?page=${page}`, config);
-                setTasks(response.data.tasks);
-            } catch (error) {
-                console.error("Error fetching tasks:", error);
-            }
-        };
+       
 
         fetchTasks();
     }, [page]);
@@ -40,19 +42,25 @@ export function DashboardPage() {
                 <SimpleModal />
             </div>
             <h3 className="text-3xl font-semibold text-blue-300 text-center ">Your Tasks</h3>
-            <div className="w-[950px] min-h-[70vh] mx-auto mt-6 bg-white rounded-lg shadow-lg p-10 flex flex-col items-stretch">
-                <div className="flex-grow">
-                    {tasks.length > 0 ? (
-                        <ul className="mt-3 space-y-2">
-                            {tasks.map((task) => (
-                                <li key={task.id} className="p-3 bg-gray-100 rounded-md shadow">
-                                    {task.title}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="text-gray-600 mt-3">No tasks found.</p>
-                    )}
+            <div className="w-full min-h-[70vh] mx-auto mt-6 bg-white rounded-lg shadow-lg p-10">
+                <div className="flex-grow grid grid-cols-2 gap-6">
+                    {tasks.map((task) => (
+                        <li key={task.id} className="p-4 bg-gray-100 rounded-md shadow flex justify-between items-center">
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
+                                <p className="text-sm text-gray-600">{task.description}</p>
+                                <span className={`text-xs font-medium px-2 py-1 rounded-lg ${task.status === "Completed" ? "bg-green-100 text-green-600"
+                                    : task.status === "Pending" ? "bg-yellow-100 text-yellow-600"
+                                        : "bg-red-100 text-red-600"
+                                    }`}>
+                                    {task.status}
+                                </span>
+                            </div>
+
+                            <UpdateTaskModel task={task} refresh={fetchTasks}/>
+
+                        </li>
+                    ))}
                 </div>
 
                 <div className="flex justify-center mt-6 space-x-4">
@@ -69,8 +77,8 @@ export function DashboardPage() {
                         Next
                     </button>
                 </div>
-
             </div>
+
 
 
 

@@ -9,7 +9,7 @@ const router = require("express").Router();
 router.post("/add-task", addtask);
 router.get("/get-tasks", getTasks); // send query like ?page=1&limit=5
 router.get("/get-task/:id", getTaskById);
-router.put("/update-task", updateTask);
+router.put("/update-task/:id", updateTask);
 router.delete("/delete-task", deleteTask);
 
 module.exports = router;
