@@ -73,7 +73,7 @@ export function DashboardPage() {
                                                 className="p-4 bg-gray-100 rounded-md shadow flex justify-between items-center"
                                             >
                                                 <div>
-                                                    <h3 className="text-lg font-semibold text-gray-800">{task.title} {index}</h3>
+                                                    <h3 className="text-lg font-semibold text-gray-800">{task.title}</h3>
                                                     <p className="text-sm text-gray-600">{task.description}</p>
                                                     <span className={`text-xs font-medium px-2 py-1 rounded-lg ${task.status === "Completed" ? "bg-green-100 text-green-600"
                                                         : task.status === "Pending" ? "bg-yellow-100 text-yellow-600"
