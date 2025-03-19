@@ -49,7 +49,7 @@ The frontend is built using:
 - **Task Management:** Users can add, edit, and delete tasks
 - **Pagination & Filtering:** Users can paginate tasks and filter them by status (**Pending, InProgress, Completed**)
 - **Drag & Drop:** 
-Users can drag the cards on frontend, I have used ello-pangea/dnd library for it. It is substitute of react-beautiful-dnd as it is no longer supported in React 19. However, dropping functionality is not working for now. I will figure out the issue later.
+Users can drag the cards on frontend, I have used ello-pangea/dnd library for it. It is substitute of react-beautiful-dnd as it is no longer supported in React 19. 
 
 
 ---

@@ -43,7 +43,7 @@ export function DashboardPage() {
         console.log("destination", result.destination.index)
 
         const items = [...tasks];
-        items.splice(result.destination.index, 0, items.splice(result.source.index, 1)[0]); // Insert the item
+        items.splice(result.destination.index, 0, items.splice(result.source.index, 1)[0]);
         setTasks(items);
     };
 
