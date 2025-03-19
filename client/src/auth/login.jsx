@@ -4,6 +4,7 @@ import { z } from "zod";
 import axios from "axios";
 import authStore from "../stores/authStore";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -22,21 +23,24 @@ export default function LoginForm() {
   const setUserInfo = authStore((state) => state.setUserInfo)
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (rawData) => {
     console.log("Login Data:", rawData);
+    setIsLoading(true)
     try {
       const response = await axios.post(`${BASE_URL}/users/login`, rawData);
       console.log(response)
       if (response.data.token && response.data.userInfo) {
         setToken(response.data.token);//setting access token in global store
         setUserInfo(response.data.userInfo); //setting userInfo in global store
-        console.log("Navigating to /dashboard...");
+        setIsLoading(false);
         navigate('/dashboard'); 
       }
 
     } catch (err) {
-      console.log(err.message);
+      setIsLoading(false);
+      alert(err.message);
     }
 
   };
@@ -76,9 +80,17 @@ export default function LoginForm() {
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition cursor-pointer"
         >
-          Login
+          {isLoading ? "Loading" : "Log In"}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onSubmit({ regEmail: "test@gmail.com", password: "test123" })}
+          className="w-full bg-gray-500 text-white py-2 mt-2 rounded-lg hover:bg-gray-600 transition cursor-pointer"
+        >
+          {isLoading ? "Loading" : "Developer Login"}
         </button>
         <div className="flex items-center space-x-2">
           <h2 className="text-gray-700">Don't have an account?</h2>
@@ -88,6 +100,9 @@ export default function LoginForm() {
           >
             Register
           </button>
+
+
+
         </div>
 
 

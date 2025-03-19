@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const UserModel = require("../../Models/UserModel");
 const registerUser = async (req, res) => {
+    console.log(req.body)
     try {
         const { regName, regEmail, password } = req.body;
         // fields should not be empty
@@ -37,7 +38,7 @@ const registerUser = async (req, res) => {
             regEmail,
             password: hashedPassword,
         })
-        user.save();
+        await user.save();
 
         return res.status(200).json({
             success: true,
