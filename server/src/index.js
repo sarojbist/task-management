@@ -17,7 +17,11 @@ const { verifyJwt } = require("./Auth/jwtAuth");
 app.use("/api/v1/users", UserRouter);
 
 // handling tasks
-app.use("/api/v1/tasks", verifyJwt, TaskRouter)
+app.use("/api/v1/tasks", verifyJwt, TaskRouter);
+
+app.get("/", (req, res) => {
+  res.send("Server is working perfectly...")
+})
 
 // connecting db before opening port
 connectDatabase().

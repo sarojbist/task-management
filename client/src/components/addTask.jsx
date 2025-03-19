@@ -29,7 +29,7 @@ export default function AddModal({refresh}) {
     });
 
     const token = authStore((state) => state.token);
-console.log(token);
+    // console.log(token);
     const onSubmit = async (rawData) => {
         let config = {
             headers: {

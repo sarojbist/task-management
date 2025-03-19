@@ -39,14 +39,17 @@ export function DashboardPage() {
 
     const onDragEnd = (result) => {
         if (!result.destination) return;
+        console.log("source", result.source.index);
+        console.log("destination", result.destination.index)
 
-        setTasks((prevTasks) => {
-            const reorderedTasks = [...prevTasks];
-            const [movedTask] = reorderedTasks.splice(result.source.index, 1);
-            reorderedTasks.splice(result.destination.index, 0, movedTask);
-            return reorderedTasks;
-        });
+        const items = [...tasks];
+        items.splice(result.destination.index, 0, items.splice(result.source.index, 1)[0]); // Insert the item
+        setTasks(items);
     };
+
+    useEffect(() => {
+        console.log("Tasks updated:", tasks);
+    }, [tasks]);
 
     return (
         <div className="bg-gradient-to-r from-gray-500 to-gray-700 min-h-screen">
