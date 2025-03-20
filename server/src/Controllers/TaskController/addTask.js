@@ -2,7 +2,8 @@ const TaskModel = require("../../Models/TaskModel");
 
 const addtask = async (req, res) => {
     try {
-        const { title, description, status } = req.body;
+        const { title, description, status, priority } = req.body;
+        const { userId } = req.user;
         
         if (!title ) {
             return res.status(403).send({
@@ -10,12 +11,22 @@ const addtask = async (req, res) => {
                 message: "At least title is required",
             });
         }
+        if (isNaN(priority)) {
+            {
+                return res.status(403).send({
+                    success: false,
+                    message: "Priority should be a number",
+                });
+            }
+        }
 
         // creating task model instance
         const task = new TaskModel({
             title,
             description,
-            status,
+            status,  
+            addedBy: userId,
+            priority
         })
        await task.save();
 

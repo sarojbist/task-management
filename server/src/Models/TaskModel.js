@@ -10,6 +10,14 @@ const TaskSchema = new Schema(
             type: String,
             enum: ["Pending", "InProgress", "Completed"],
             default: "Pending"
+        },
+        addedBy: {
+            type: mongoose.Schema.Types.ObjectId, ref: "user",
+        },
+        priority: {
+            type: Number, 
+            enum: [1,2,3],
+            required: true
         }
     }, {
     timestamps: true

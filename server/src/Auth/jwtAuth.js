@@ -20,6 +20,7 @@ function verifyJwt(req, res, next) {
             return res.status(403).json({ message: "No Token is Provided" });
         }
         const token = authorization.split(" ")[1];
+        // console.log("auth token", token)
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 

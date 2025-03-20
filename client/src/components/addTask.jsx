@@ -16,7 +16,8 @@ export default function AddModal({refresh}) {
     const taskSchema = z.object({
         title: z.string().min(1, 'Title is required'),
         description: z.string().optional(),
-        status: z.enum(['Pending', 'InProgress', 'Completed']).optional()
+        status: z.enum(['Pending', 'InProgress', 'Completed']).optional(),
+        priority: z.string()
     });
 
     const {
@@ -36,6 +37,8 @@ export default function AddModal({refresh}) {
               'Authorization': 'Bearer ' + token
             }
           }
+          console.log("form data", rawData)
+          rawData.priority = Number(rawData.priority);
         try {
             const response = await axios.post(`${BASE_URL}/tasks/add-task`, rawData, config);
             if (response.data.success) {
@@ -96,6 +99,18 @@ export default function AddModal({refresh}) {
                                     <option value="Pending">Pending</option>
                                     <option value="InProgress">In Progress</option>
                                     <option value="Completed">Completed</option>
+                                </select>
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700">Priority</label>
+                                <select
+                                    {...register('priority')}
+                                    className="mt-1 p-2 border rounded-md w-full"
+                                >
+                                    <option>Select Priority</option>
+                                    <option value={1}>Highest</option>
+                                    <option value={2}>Medium</option>
+                                    <option value={3}>Lowest</option>
                                 </select>
                             </div>
 
